@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+
+ <head>
+    <title>TESTING</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        @import url(http://fonts.googleapis.com/css?family=Muli);
+
+body {
+    margin:0;
+    padding:0;
+    font-family:helvetica, sans-serif;
+}
+
+p {
+
+    line-height: 1.8;
+}
+
+a {
+    color:#12c064;
+    text-decoration:none;
+}
+
+a:hover {
+    color:#00a74f;
+}
+
+h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
+
+h1 {
+    border-bottom:1px solid #bbb;
+    padding:0 0 10px 0;
+    margin:10px 0 20px 0;
+}
+
+h2 {
+    margin:30px 0 20px;
+}
+
+ol {
+    line-height:1.5;
+}
+
+#header {
+    padding:10px 100px;
+    font-size:14px;
+    background:#12c064;
+    color:#fff;
+    border-bottom:4px solid #1cdf78;
+    overflow:auto;
+}
+
+#header .logo {
+    font-family: 'Muli', sans-serif;
+    float:left;
+    color:#f3f7cc;
+    font-size:20px;
+    margin-right:10%;
+}
+
+#header ul.menu {
+    list-style:none;
+    float:left;
+    margin:0;
+    padding:0;
+}
+#header ul.menu li {
+    float:left;
+    padding:4px 10px;
+}
+
+#header ul.menu li.selected a, #header ul.menu li.selected a:hover {
+    color:#1b6d32;
+    font-weight:bold;
+}
+
+#header a {
+    color:#f3f7cc;
+}
+#header a:hover {
+    color:#fff;
+}
+
+#header .user {
+    float:right;
+    padding-top:4px;
+}
+
+#content {
+    padding:30px 100px;
+}
+
+
+/* forms */
+form {
+    clear:both;
+}
+
+form p {
+    width:100%;
+    padding: 5px 8px;
+
+}
+
+label {
+    float:left;
+    clear:both;
+    color:#333;
+    margin-bottom:4px;
+}
+input, textarea {
+    clear:both;
+    float:left;
+    margin:0 0 10px;
+    background:#efefef;
+    border:0;
+    padding:6px 10px;
+    font-size:14px;
+}
+input[type=submit], a.button {
+    font-weight:bold;
+    background:#12c064;
+    color:#fff;
+    padding:10px 20px;
+    font-size:14px;
+    text-transform:uppercase;
+}
+.errorlist {
+    color:#cc0033;
+    float:left;
+    clear:both;
+    padding-left:10px;
+}
+
+.helptext {
+    margin:0 0 20px 0;
+    color:#aaa;
+    clear:both;
+    float:left;
+    font-size:13px;
+}
+
+
+a.like, a.follow { float:right; margin-top:-8px; }
+
+
+.select-style {
+    width: 320px;
+    height: 100%;
+    border-radius: 3px;
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 90%;
+}
+
+.descriptions {
+    width: 85%;
+}
+
+    </style>
+ </head>
+
+
+<body>
+    <div id="header">
+        <span class="user">
+        </span>
+    </div>
+
+    <div id="content">
+        <div class="select-style">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ student_form.as_p }}
+            <p><input type="submit" value="HI"></p>
+        </form>
+    </div>
+    </div>
+
+</body>
+
+<script language="javascript">
+        //alert('funcionou');
+        $('#id_brand_select').change(function() {populateCar(this)});
+        $('#id_description').addClass('descriptions');
+        cars = {{ student_form.cars | safe }}
+        brands = {{ student_form.brands | safe}};
+        populateBrand();
+        $("#id_car_select").empty();
+        $("#id_car_select").append('<option value="" disabled selected>First select a brand</option>');
+        function populateBrand() {
+            $('#id_brand_select').empty();
+            $("#id_brand_select").append('<option value="" disabled selected>Select your option</option>');
+            $.each(brands, function(v) {
+                $('#id_brand_select')
+                    .append($("<option></option>")
+                    .attr("value", brands[v])
+                    .text(brands[v]));
+            });
+        }
+        function populateCar(event) {
+            brand = $("#id_brand_select option:selected").text();
+            $("#id_car_select").empty();
+            $("#id_car_select").append('<option value="" disabled selected>Select your option</option>');
+            for (let [b, bcars] of Object.entries(cars)) {
+                if (b == brand) {
+                    //alert(b);
+                    for (car in bcars) {
+                        $('#id_car_select')
+                            .append($("<option></option>")
+                                .attr("value", bcars[car])
+                                .text(bcars[car]));
+                    }
+                }
+            }
+        }
+    </script>
+
+</html>
